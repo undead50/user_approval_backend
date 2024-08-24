@@ -1,5 +1,7 @@
 package com.ebl.userapproval.controller;
 
+import com.ebl.userapproval.model.ApplicationRoleRequest;
+import com.ebl.userapproval.model.UserApprovalHistory;
 import com.ebl.userapproval.model.UserApprovalMaster;
 import com.ebl.userapproval.service.UserApprovalMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,41 @@ public class UserApprovalMasterController {
     public ResponseEntity<UserApprovalMaster> getApprovalById(@PathVariable Long id) {
         Optional<UserApprovalMaster> approval = service.getApprovalById(id);
         return approval.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserApprovalMaster> updateApproval(
+            @PathVariable Long id, @RequestBody UserApprovalMaster updatedApproval) {
+
+        Optional<UserApprovalMaster> existingApprovalOptional = service.getApprovalById(id);
+
+        if (existingApprovalOptional.isPresent()) {
+            UserApprovalMaster existingApproval = existingApprovalOptional.get();
+
+            // Update fields of UserApprovalMaster
+            existingApproval.setAccessType(updatedApproval.getAccessType());
+            existingApproval.setFromDate(updatedApproval.getFromDate());
+            existingApproval.setToDate(updatedApproval.getToDate());
+            existingApproval.setStatus(updatedApproval.getStatus());
+            existingApproval.setRequestedBy(updatedApproval.getRequestedBy());
+            existingApproval.setRecommendedBy(updatedApproval.getRecommendedBy());
+            existingApproval.setApprovedBy(updatedApproval.getApprovedBy());
+            existingApproval.setDelFlag(updatedApproval.getDelFlag());
+
+            // Handle the applicationRoleRequests collection
+            existingApproval.getApplicationRoleRequests().clear();  // Clear the existing list
+            existingApproval.getApplicationRoleRequests().addAll(updatedApproval.getApplicationRoleRequests());  // Add all new requests
+
+            // Handle the userApprovalHistories collection
+            existingApproval.getUserApprovalHistories().clear();  // Clear the existing list
+            existingApproval.getUserApprovalHistories().addAll(updatedApproval.getUserApprovalHistories());  // Add all new histories
+
+            // Save the updated entity
+            UserApprovalMaster savedApproval = service.saveApproval(existingApproval);
+            return ResponseEntity.ok(savedApproval);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping

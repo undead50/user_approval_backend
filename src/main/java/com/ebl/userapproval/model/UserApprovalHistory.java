@@ -8,20 +8,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "application_role_requests")
-public class ApplicationRoleRequest {
+@Table(name = "user_approval_history")
+public class UserApprovalHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    private Integer applicationId;
+    private String status;
 
-    private Integer roleTypeId;
-
-    private String serviceType;
-
-    private Integer requestType;
+    private String remarks;
 
     private String delFlag;
 

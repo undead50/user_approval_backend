@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,22 +33,30 @@ public class UserApprovalMaster {
     @Column(name = "to_date")
     private LocalDate toDate;
 
-    private int requestedBy;
+    private String status;
 
-    private int recommendedBy;
+    private Integer requestedBy;
 
-    private int approvedBy;
+    private Integer recommendedBy;
 
-//    @CreationTimestamp
-//    @Column(name = "created_at")
-//    private LocalDateTime createdAt;
-//
-//    @UpdateTimestamp
-//    @Column(name = "updated_at")
-//    private LocalDateTime updatedAt;
+    private Integer approvedBy;
+
+    private String delFlag;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     // Add a collection for ApplicationRoleRequests
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="approval_master_id",referencedColumnName = "id")
     private List<ApplicationRoleRequest> applicationRoleRequests;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="approval_master_id",referencedColumnName = "id")
+    private List<UserApprovalHistory> userApprovalHistories;
 }
