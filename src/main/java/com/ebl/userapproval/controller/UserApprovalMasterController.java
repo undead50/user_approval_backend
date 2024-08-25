@@ -46,6 +46,7 @@ public class UserApprovalMasterController {
             existingApproval.setFromDate(updatedApproval.getFromDate());
             existingApproval.setToDate(updatedApproval.getToDate());
             existingApproval.setStatus(updatedApproval.getStatus());
+            existingApproval.setCurrentHandler(updatedApproval.getCurrentHandler());
             existingApproval.setRequestedBy(updatedApproval.getRequestedBy());
             existingApproval.setRecommendedBy(updatedApproval.getRecommendedBy());
             existingApproval.setApprovedBy(updatedApproval.getApprovedBy());

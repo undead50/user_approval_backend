@@ -37,6 +37,8 @@ public class UserApprovalMaster {
 
     private Integer requestedBy;
 
+    private Integer currentHandler;
+
     private Integer recommendedBy;
 
     private Integer approvedBy;

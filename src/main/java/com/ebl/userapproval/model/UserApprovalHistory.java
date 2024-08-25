@@ -21,4 +21,6 @@ public class UserApprovalHistory {
 
     private String delFlag;
 
+    private String commentedBy;
+
 }
