@@ -16,4 +16,7 @@ public interface UserApprovalMasterRepository extends JpaRepository<UserApproval
     @Query(value = "select * from user_approval_master where del_flag = 'N'", nativeQuery = true)
     List<UserApprovalMaster> fetchApproval();
 
+    @Query(value = "select * from user_approval_master where current_handler = :current_handler", nativeQuery = true)
+    List<UserApprovalMaster> fetchApprovalByCurrentHandler(@Param("current_handler") Long current_handler);
+
 }

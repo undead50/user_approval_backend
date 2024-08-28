@@ -3,6 +3,7 @@ package com.ebl.userapproval.controller;
 import com.ebl.userapproval.model.ApplicationRoleRequest;
 import com.ebl.userapproval.model.UserApprovalHistory;
 import com.ebl.userapproval.model.UserApprovalMaster;
+import com.ebl.userapproval.repository.UserApprovalMasterRepository;
 import com.ebl.userapproval.service.UserApprovalMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class UserApprovalMasterController {
     @Autowired
     private UserApprovalMasterService service;
 
+    @Autowired
+    private UserApprovalMasterRepository repository;
+
     @PostMapping
     public ResponseEntity<UserApprovalMaster> createApproval(@RequestBody UserApprovalMaster approval) {
         UserApprovalMaster savedApproval = service.saveApproval(approval);
@@ -31,6 +35,13 @@ public class UserApprovalMasterController {
         Optional<UserApprovalMaster> approval = service.getApprovalById(id);
         return approval.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/fetchApprovalByCurrentHandler/{id}")
+    public ResponseEntity<List<UserApprovalMaster>> fetchApprovalByCurrentHandler(@PathVariable Long id) {
+        List<UserApprovalMaster> approval = repository.fetchApprovalByCurrentHandler(id);
+        return ResponseEntity.ok(approval); // Return the list wrapped in a ResponseEntity
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<UserApprovalMaster> updateApproval(
