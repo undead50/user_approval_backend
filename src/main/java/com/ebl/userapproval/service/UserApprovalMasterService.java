@@ -30,7 +30,7 @@ public class UserApprovalMasterService {
     }
 
     public List<UserApprovalMaster> getAllApprovals() {
-        return repository.findAll();
+        return repository.fetchApproval();
     }
 
     public void deleteApproval(Long id) {

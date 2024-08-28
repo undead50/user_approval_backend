@@ -42,6 +42,8 @@ public class Employee {
 
     private String email;
 
+    private String employeeId;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="approval_master_id")
     UserApprovalMaster userApprovalMaster;
