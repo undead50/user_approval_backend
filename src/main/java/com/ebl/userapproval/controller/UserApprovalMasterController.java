@@ -1,10 +1,13 @@
 package com.ebl.userapproval.controller;
 
 import com.ebl.userapproval.model.ApplicationRoleRequest;
+import com.ebl.userapproval.model.Upr;
 import com.ebl.userapproval.model.UserApprovalHistory;
 import com.ebl.userapproval.model.UserApprovalMaster;
 import com.ebl.userapproval.repository.UserApprovalMasterRepository;
+import com.ebl.userapproval.service.CallCbs;
 import com.ebl.userapproval.service.UserApprovalMasterService;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,21 @@ public class UserApprovalMasterController {
     public ResponseEntity<UserApprovalMaster> createApproval(@RequestBody UserApprovalMaster approval) {
         UserApprovalMaster savedApproval = service.saveApproval(approval);
         return new ResponseEntity<>(savedApproval, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/fetchUprCbs/{userId}")
+    public ResponseEntity<List<Upr>> fetchUprCbs(@PathVariable String userId) {
+        // Query the user data
+        CallCbs callCbs = new CallCbs();
+        List<Upr> cbsData = callCbs.queryUserData(userId);
+
+        // Check if data is empty and return a suitable response
+        if (cbsData.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content if no data found
+        }
+
+        // Return the list of data with OK status
+        return new ResponseEntity<>(cbsData, HttpStatus.OK); // 200 OK
     }
 
     @GetMapping("/{id}")
