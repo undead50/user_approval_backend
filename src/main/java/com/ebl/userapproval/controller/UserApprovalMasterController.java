@@ -32,6 +32,12 @@ public class UserApprovalMasterController {
         UserApprovalMaster savedApproval = service.saveApproval(approval);
         return new ResponseEntity<>(savedApproval, HttpStatus.CREATED);
     }
+    @GetMapping("/fetchApprovalApproved")
+    public ResponseEntity<List<UserApprovalMaster>> fetchApprovalApproved(@RequestParam String current_handler) {
+        List<UserApprovalMaster> approved = repository.fetchApprovalApproved(current_handler);
+        return ResponseEntity.ok(approved);
+    }
+
 
     @GetMapping("/fetchUprCbs/{userId}")
     public ResponseEntity<List<Upr>> fetchUprCbs(@PathVariable String userId) {
