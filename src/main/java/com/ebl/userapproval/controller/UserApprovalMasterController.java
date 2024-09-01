@@ -7,6 +7,7 @@ import com.ebl.userapproval.model.UserApprovalMaster;
 import com.ebl.userapproval.repository.UserApprovalMasterRepository;
 import com.ebl.userapproval.service.CallCbs;
 import com.ebl.userapproval.service.UserApprovalMasterService;
+import org.apache.catalina.User;
 import org.aspectj.weaver.ast.Call;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +65,12 @@ public class UserApprovalMasterController {
     public ResponseEntity<List<UserApprovalMaster>> fetchApprovalByCurrentHandler(@PathVariable Long id) {
         List<UserApprovalMaster> approval = repository.fetchApprovalByCurrentHandler(id);
         return ResponseEntity.ok(approval); // Return the list wrapped in a ResponseEntity
+    }
+
+    @GetMapping("/fetchRequestChain/{id}")
+    public  ResponseEntity<List<UserApprovalMaster>> fetchRequestChain(@PathVariable Long id){
+        List<UserApprovalMaster> chain = repository.fetchRequestChain(id);
+        return ResponseEntity.ok(chain);
     }
 
 
