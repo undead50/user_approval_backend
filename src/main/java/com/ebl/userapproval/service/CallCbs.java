@@ -1,4 +1,5 @@
 package com.ebl.userapproval.service;
+import com.ebl.userapproval.model.Cbs;
 import com.ebl.userapproval.model.Upr;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +68,44 @@ public class CallCbs {
         }
         // Return the result list, or null if no rows are found
         return result;
+    }
+    public void insertData(List<Cbs> data) {
+
+        // Database connection parameters
+        String URL = "jdbc:oracle:thin:@//10.1.7.11:1521/EBLFIN";
+        String USERNAME = "SYSTEM";
+        String PASSWORD = "metsys12";
+        // SQL insert statement
+        String sql = "INSERT INTO user_management (role, service_type, existing_service_type, from_date, to_date, cbs_user_id) "
+                + "VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), TO_DATE(?, 'YYYY-MM-DD'), ?)";
+
+        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+//            // Data to be inserted
+//            String[][] data = {
+//                    {"workclass", "FDRD", "ndf", "23-01-2024", "23-02-2024", "AYUSH1654"},
+//                    {"workclass", "120", null, null, null, "AYUSH1655"},
+//                    {"workclass", "CHFMG", null, null, null, "AYUSH1656"}
+//            };
+
+            for (Cbs row : data) {
+                // Setting parameters for the prepared statement
+                preparedStatement.setString(1, row.getRoleTypeId()); // role
+                preparedStatement.setString(2, row.getServiceType()); // service_type
+                preparedStatement.setString(3, row.getExsistingServiceType()); // existing_service_type
+                preparedStatement.setString(4, row.getFromDate()); // from_date
+                preparedStatement.setString(5, row.getToDate()); // to_date
+                preparedStatement.setString(6, row.getCbsId()); // cbs_user_id
+
+                // Execute the insert statement
+                preparedStatement.executeUpdate();
+            }
+
+            System.out.println("Data inserted successfully.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,9 +1,6 @@
 package com.ebl.userapproval.controller;
 
-import com.ebl.userapproval.model.ApplicationRoleRequest;
-import com.ebl.userapproval.model.Upr;
-import com.ebl.userapproval.model.UserApprovalHistory;
-import com.ebl.userapproval.model.UserApprovalMaster;
+import com.ebl.userapproval.model.*;
 import com.ebl.userapproval.repository.UserApprovalMasterRepository;
 import com.ebl.userapproval.service.CallCbs;
 import com.ebl.userapproval.service.UserApprovalMasterService;
@@ -33,6 +30,14 @@ public class UserApprovalMasterController {
         UserApprovalMaster savedApproval = service.saveApproval(approval);
         return new ResponseEntity<>(savedApproval, HttpStatus.CREATED);
     }
+
+    @PostMapping("/saveToCbs")
+    public ResponseEntity<Cbs> saveToCbs(@RequestBody List<Cbs> approval){
+        CallCbs cbs = new CallCbs();
+        cbs.insertData((List<Cbs>) approval);
+        return null;
+    }
+
     @GetMapping("/fetchApprovalApproved")
     public ResponseEntity<List<UserApprovalMaster>> fetchApprovalApproved(@RequestParam String current_handler) {
         List<UserApprovalMaster> approved = repository.fetchApprovalApproved(current_handler);

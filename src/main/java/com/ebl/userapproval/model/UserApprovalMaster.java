@@ -43,6 +43,9 @@ public class UserApprovalMaster {
 
     private Integer approvedBy;
 
+    @Column(name = "cbs_user_name") // Add or update this annotation to map correctly
+    private String cbsUserName;
+
     private String delFlag;
 
     @CreationTimestamp

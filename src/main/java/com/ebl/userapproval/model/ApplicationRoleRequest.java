@@ -23,6 +23,8 @@ public class ApplicationRoleRequest {
 
     private Integer requestType;
 
+    private String exsistingServiceType;
+
     private String delFlag;
 
 }
