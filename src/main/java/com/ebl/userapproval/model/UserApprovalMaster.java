@@ -43,6 +43,8 @@ public class UserApprovalMaster {
 
     private Integer approvedBy;
 
+    private String branchId;
+
     @Column(name = "cbs_user_name") // Add or update this annotation to map correctly
     private String cbsUserName;
 
